@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -42,7 +42,13 @@ public class PlayerHealth : MonoBehaviour
         get => currentLives;
         set
         {
-            currentLives = Mathf.Clamp(value, 0, maxLives);
+            if (currentLives > value)
+                Respawn();
+
+            currentLives = value;
+
+            if (currentLives > maxLives)
+                currentLives = maxLives;
 
             //check if player is out of lives
             if (currentLives <= 0)
@@ -59,8 +65,6 @@ public class PlayerHealth : MonoBehaviour
         get => currentHealth;
         set
         {
-            currentHealth = maxHealth;
-            currentHealth = value;
             currentHealth = Mathf.Clamp(value, 0, maxHealth);
             Debug.Log("Player's health: " + currentHealth);
 
@@ -109,4 +113,4 @@ public class PlayerHealth : MonoBehaviour
         Debug.Log("Game Over");
         GameManager.Instance.GameOver();
     }
-}
+}*/

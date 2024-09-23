@@ -12,10 +12,4 @@ public class Level : MonoBehaviour
     {
         playerSpawn.SpawnPlayer(playerStart);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

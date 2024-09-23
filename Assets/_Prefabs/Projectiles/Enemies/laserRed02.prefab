@@ -163,5 +163,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileSpeed: 3
   lifeTime: 3
-  projectileDamage: 10
-  playerHealth: {fileID: 1994458382604660910, guid: 2b803d7bf36a3f840b34c59098d62f60, type: 3}
+  projectileDamage: 25

@@ -13,6 +13,8 @@ public class PlayerShoot : MonoBehaviour
     private bool isShooting = false;            //flag to check if the player is currently shooting
     private float nextFireTime = 0f;            //time until next shot fired
 
+    public AudioClip fireShotClip;              //audio clip for firing a lazer
+
     void OnEnable()
     {
         //subsribing to touch events from InputManager
@@ -62,6 +64,8 @@ public class PlayerShoot : MonoBehaviour
     {
         //Instantiate the projectile at the fire point's position and rotation
         Instantiate(playerProjectile, playerProjectileSpawn.position, playerProjectileSpawn.rotation);
+
+        AudioManager.instance.PlaySFX(fireShotClip);
         //Debug.Log("PlayerShoot: Shoot - Projectile Instantiated");
     }
 }

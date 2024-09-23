@@ -166,6 +166,7 @@ MonoBehaviour:
   enemyHealth: 100
   moveSpeed: 2
   stopYPosition: 4
+  scorePerEnemyTierOne: 15
   playerTarget: {fileID: 3768451477405728707, guid: 1bff21ed876c25741b28c91c322a8307, type: 3}
   trackingSpeed: 2
 --- !u!114 &-2402278166594766093
@@ -184,6 +185,7 @@ MonoBehaviour:
   shootInterval: 2
   shootPoint: {fileID: 4232149752665146244}
   playerTarget: {fileID: 3768451477405728707, guid: 1bff21ed876c25741b28c91c322a8307, type: 3}
+  lazerClip: {fileID: 8300000, guid: 528f4365cce222846adfb1d5cc832a6a, type: 3}
 --- !u!1 &7055262786561427208
 GameObject:
   m_ObjectHideFlags: 0

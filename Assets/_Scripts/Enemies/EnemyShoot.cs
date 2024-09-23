@@ -10,6 +10,8 @@ public class EnemyShoot : MonoBehaviour
 
     public Transform playerTarget;         //player target for projectiles
 
+    public AudioClip lazerClip;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +35,7 @@ public class EnemyShoot : MonoBehaviour
             //instantiating the projectile and set its direction towards the player
             GameObject enemyProjectile = Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity);
             enemyProjectile.GetComponent<Rigidbody2D>().velocity = (playerTarget.position - shootPoint.position).normalized * 5;
+            AudioManager.instance.PlaySFX(lazerClip);
 
             //waiting for the next shot
             yield return new WaitForSeconds(shootInterval);

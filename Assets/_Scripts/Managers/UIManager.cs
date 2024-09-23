@@ -5,38 +5,48 @@ using TMPro;  //importing the TextMeshPro namespace
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
+using UnityEngine.Audio;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] public PlayerHealth playerHealth;
+    public AudioMixer audioMixer;
 
-    /// <summary>
-    /// Menu game objects for enabling and disabling 
-    /// </summary>
     [Header("Menus")]
     public GameObject mainMenu;
     public GameObject optionsMenu;
     public GameObject shopMenu;
     public GameObject pauseMenu;
+    public GameObject levelMenu;
 
-    /// <summary>
-    /// Button for setting up UI in menus
-    /// </summary>
     [Header("Buttons")]
     public Button startButton;          //start button
     public Button optionsButton;        //options button
     public Button shopButton;           //shop button
-    public Button restartButton;        //restart button
     public Button pauseButton;          //pause button
     public Button resumeButton;         //resume button
     public Button backButton;           //back button
-    public Button returnToMenuButton;   //return to menu button
+    public Button levelOneButton;       //level 1 button
+    public Button levelTwoButton;       //level 2 button
     public Button applySkinButton;      //apply skin button (added for skin application)
 
-    [Header("Gameplay UI")]
+    [Header("GameOverUI")]
+    public Button restartButton;        //restart button
+    public Button returnToMenuButton;   //return to menu button
+    public TextMeshProUGUI lastScoreText;
+    public TextMeshProUGUI currentHighScoreText;
+
+    [Header("Sliders")]
+    public Slider masterVolSlider;
+    public Slider musicVolSlider;
+    public Slider sfxVolSlider;
+
+    [Header("Texts")]
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI livesText;
+    public TextMeshProUGUI masterVolumeText;
+    public TextMeshProUGUI musicVolumeText;
+    public TextMeshProUGUI sfxVolumeText;
 
     [Header("Player Skins")]
     public GameObject playerShip;       //Player ship object to apply the skin
@@ -46,22 +56,25 @@ public class UIManager : MonoBehaviour
     [Header("Skin Selection Buttons")]
     public Button[] skinButtons;        //Array of buttons for skin selection
 
-    void Start()
+    private void Start()
     {
         if (startButton)
-            startButton.onClick.AddListener(() => GameManager.Instance.ChangeScene(1));
+            startButton.onClick.AddListener(() => SetMenus(levelMenu, mainMenu, optionsMenu, shopMenu));
 
         if (optionsButton)
-            optionsButton.onClick.AddListener(() => SetMenus(optionsMenu, mainMenu, shopMenu));
+            optionsButton.onClick.AddListener(() => SetMenus(optionsMenu, mainMenu, shopMenu, levelMenu));
 
         if (shopButton)
-            shopButton.onClick.AddListener(() => SetMenus(shopMenu, mainMenu, optionsMenu));
+            shopButton.onClick.AddListener(() => SetMenus(shopMenu, mainMenu, optionsMenu, levelMenu));
 
         if (backButton)
-            backButton.onClick.AddListener(() => SetMenus(mainMenu, optionsMenu, shopMenu));
+            backButton.onClick.AddListener(() => SetMenus(mainMenu, optionsMenu, shopMenu, levelMenu));
 
         if (returnToMenuButton)
+        {
             returnToMenuButton.onClick.AddListener(() => GameManager.Instance.ChangeScene(0));
+            GameManager.Instance.ResetGameData();
+        }
 
         if (restartButton)
             restartButton.onClick.AddListener(RestartGame);
@@ -70,7 +83,49 @@ public class UIManager : MonoBehaviour
             pauseButton.onClick.AddListener(() => { pauseMenu.SetActive(!pauseMenu.activeSelf); PauseMenu(); });
 
         if (resumeButton)
-            resumeButton.onClick.AddListener(() => { SetMenus(null, null, pauseMenu); PauseMenu(); });
+            resumeButton.onClick.AddListener(() => { SetMenus(null, null, null, pauseMenu); PauseMenu(); });
+
+        if (levelOneButton)
+        {
+            levelOneButton.onClick.AddListener(() => GameManager.Instance.ChangeScene(1));
+            GameManager.Instance.ResetGameData();
+        }
+
+        if (levelTwoButton)
+        {
+            levelTwoButton.onClick.AddListener(() => GameManager.Instance.ChangeScene(2));
+            GameManager.Instance.ResetGameData();
+        }
+
+        if (masterVolSlider)
+        {
+            masterVolSlider.onValueChanged.AddListener((value) => OnSliderValueChanged(value, masterVolumeText, "MasterVol"));
+            float mixerValue;
+            audioMixer.GetFloat("MasterVol", out mixerValue);
+            masterVolSlider.value = mixerValue + 80;
+            if (masterVolumeText)
+                masterVolumeText.text = masterVolSlider.value.ToString();
+        }
+
+        if (musicVolSlider)
+        {
+            musicVolSlider.onValueChanged.AddListener((value) => OnSliderValueChanged(value, musicVolumeText, "MusicVol"));
+            float mixerValue;
+            audioMixer.GetFloat("MusicVol", out mixerValue);
+            musicVolSlider.value = mixerValue + 80;
+            if (musicVolumeText)
+                musicVolumeText.text = musicVolSlider.value.ToString();
+        }
+
+        if (sfxVolSlider)
+        {
+            sfxVolSlider.onValueChanged.AddListener((value) => OnSliderValueChanged(value, sfxVolumeText, "SFXVol"));
+            float mixerValue;
+            audioMixer.GetFloat("SFXVol", out mixerValue);
+            sfxVolSlider.value = mixerValue + 80;
+            if (sfxVolumeText)
+                sfxVolumeText.text = sfxVolSlider.value.ToString();
+        }
 
         //score, health, and lives setup
         if (scoreText)
@@ -81,14 +136,14 @@ public class UIManager : MonoBehaviour
 
         if (healthText)
         {
-            playerHealth.OnHealthChanged.AddListener(UpdateHealth);
-            healthText.text = "HP: " + playerHealth.Health.ToString();
+            GameManager.Instance.OnHealthValueChanged.AddListener(UpdateHealth);
+            healthText.text = "HP: " + GameManager.Instance.Health.ToString();
         }
 
         if (livesText)
         {
-            playerHealth.OnLivesChanged.AddListener(UpdateLives);
-            livesText.text = "L: " + playerHealth.Lives.ToString();
+            GameManager.Instance.OnLifeValueChanged.AddListener(UpdateLives);
+            livesText.text = "L: " + GameManager.Instance.Lives.ToString();
         }
 
         //setting up skin selection buttons
@@ -100,7 +155,15 @@ public class UIManager : MonoBehaviour
 
         //setting up apply skin button
         if (applySkinButton)
+        {
             applySkinButton.onClick.AddListener(ApplySelectedSkin);
+        }
+
+        //if it's the game over scene, display the scores
+        if (SceneManager.GetActiveScene().name == "GameOver")
+        {
+            DisplayGameOverScores();
+        }
     }
 
     void Update()
@@ -110,7 +173,7 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// Method to toggle between different menus
     /// </summary>
-    void SetMenus(GameObject menuToActivate, GameObject menuToDeactivate, GameObject menuToDeactivate2)
+    void SetMenus(GameObject menuToActivate, GameObject menuToDeactivate, GameObject menuToDeactivate2, GameObject menuToDeactivate3)
     {
         if (menuToActivate)
             menuToActivate.SetActive(true);
@@ -118,6 +181,14 @@ public class UIManager : MonoBehaviour
             menuToDeactivate.SetActive(false);
         if (menuToDeactivate2)
             menuToDeactivate2.SetActive(false);
+        if (menuToDeactivate3)
+            menuToDeactivate3.SetActive(false);
+    }
+
+    void OnSliderValueChanged(float value, TMP_Text volumeText, string sliderName)
+    {
+        volumeText.text = value.ToString();
+        audioMixer.SetFloat(sliderName, value - 80);
     }
 
     /// <summary>
@@ -175,6 +246,22 @@ public class UIManager : MonoBehaviour
             livesText.text = "L: " + lives.ToString();
         }
     }
+
+    private void DisplayGameOverScores()
+    {
+        int lastScore = StorageManager.Instance.GetLastScore();
+        int highScore = StorageManager.Instance.GetHighScore();
+
+        if (lastScoreText != null)
+        {
+            lastScoreText.text = "This Rounds Score: " + lastScore.ToString();
+        }
+        if (currentHighScoreText != null)
+        {
+            currentHighScoreText.text = "High Score: " + highScore.ToString();
+        }
+    }
+
     #endregion
 
     #region Skin Selection

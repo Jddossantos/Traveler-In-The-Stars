@@ -45,7 +45,6 @@ GameObject:
   - component: {fileID: 3535339263683135808}
   - component: {fileID: 71747674348964328}
   - component: {fileID: 199303457688588641}
-  - component: {fileID: 9091539645365446271}
   m_Layer: 0
   m_Name: PlayerShip
   m_TagString: PlayerShip
@@ -110,7 +109,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: bcf6e994ad245a449adee86381fae037, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 151669fe7d6d547428b8b1015a9d1e0e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -219,27 +218,4 @@ MonoBehaviour:
   playerProjectileSpawn: {fileID: 1015883080734715644}
   projectileDamage: 100
   fireRate: 0.25
---- !u!114 &9091539645365446271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6102720906262794736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9747f68ba80401246bb5c7924a723350, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerSpawn: {fileID: 6263477503571919330, guid: 9542cec78a026544eb42c384a0fad679, type: 3}
-  playerController: {fileID: 71747674348964328}
-  maxHealth: 100
-  maxLives: 3
-  currentHealth: 0
-  currentLives: 0
-  OnHealthChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  OnLivesChanged:
-    m_PersistentCalls:
-      m_Calls: []
+  fireShotClip: {fileID: 8300000, guid: bd2185ce37f3fd2448f399ef95429123, type: 3}

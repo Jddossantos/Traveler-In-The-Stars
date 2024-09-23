@@ -9,9 +9,7 @@ public class EnemyProjectileScript : MonoBehaviour
     public float lifeTime = 3f;             //the amount of time (in seconds) before the projectile is destroyed
 
     //damage
-    public int projectileDamage = 10;       //the amount of damage the projectile will deal to enemies
-
-    [SerializeField] private PlayerHealth playerHealth;
+    public int projectileDamage = 25;       //the amount of damage the projectile will deal to enemies
 
     // Start is called before the first frame update
     void Start()
@@ -41,7 +39,7 @@ public class EnemyProjectileScript : MonoBehaviour
             //if the player has a PlayerController, reduce it's health by the damage amount specified variable
             if (playerController != null)
             {
-                playerHealth.TakeDamage(10);
+                GameManager.Instance.TakeDamage(projectileDamage);
             }
             Destroy(gameObject);        //destroy the projectile up collsion
         }  

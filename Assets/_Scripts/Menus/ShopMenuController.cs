@@ -28,11 +28,15 @@ public class ShopMenuController : MonoBehaviour
 
         //listener for the back button
         if (backButton)
-            backButton.onClick.AddListener(() => SceneManager.LoadScene(0));  // Assuming 0 is the main menu scene
+            backButton.onClick.AddListener(() => SceneManager.LoadScene(0));
 
         //listener for the apply button
         if (applyButton)
-            applyButton.onClick.AddListener(ApplySelectedSkin);
+            applyButton.onClick.AddListener(() =>
+            {
+                StorageManager.Instance.SaveSelectedSkin(selectedSkinIndex);
+                ApplySelectedSkin();
+            });
     }
 
     //method to highlight the selected skin button
@@ -41,7 +45,7 @@ public class ShopMenuController : MonoBehaviour
         selectedSkinIndex = index;
         Debug.Log($"Selected Skin: {selectedSkinIndex}");
 
-        skinButtons[index].GetComponent<Image>().color = Color.green; // Highlight selected button
+        HighlightSelectedSkin();
     }
 
     //apply the selected skin to the player
@@ -55,5 +59,16 @@ public class ShopMenuController : MonoBehaviour
             //switch the player ship skin
             playerShip.GetComponent<SpriteRenderer>().sprite = playerSkins[selectedSkinIndex].GetComponent<SpriteRenderer>().sprite;
         }
+    }
+
+    void HighlightSelectedSkin()
+    {
+        foreach (GameObject button in skinButtons)
+        {
+            button.GetComponent<Image>().color = Color.white;   //default color set
+        }
+        
+        //highlight the selected skin button
+        skinButtons[selectedSkinIndex].GetComponent <Image>().color = Color.green;  //highlight color
     }
 }

@@ -10,8 +10,6 @@ public class MeteorScript : MonoBehaviour
     private float rotationSpeed = 0f;   //base rotation speed of the meteors
     public int meteorHealth = 20;       //base health of the meteors
 
-    PlayerHealth playerHealth;
-
     //components
     private Rigidbody2D meteorRB;
 
@@ -24,8 +22,6 @@ public class MeteorScript : MonoBehaviour
     {
         //getting rigidbody component
         meteorRB = GetComponent<Rigidbody2D>();
-
-        playerHealth = GetComponent<PlayerHealth>();
 
         //adjusting the health and speeds of each meteor typess
         //if any of these types of meteors spawn in then the health and speed will be set accordingly
@@ -99,7 +95,7 @@ public class MeteorScript : MonoBehaviour
             //applying damage to the player
             if (playerController != null)
             {
-                playerHealth.TakeDamage(5);  //applying damage the player that is equal to the meteor's health
+                GameManager.Instance.TakeDamage(meteorHealth);  //applying damage the player that is equal to the meteor's health
             }
 
             Destroy(gameObject);    //destroying the meteor after it hits the player
