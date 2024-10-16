@@ -114,7 +114,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
   m_Constraints: 0
 --- !u!58 &2154120264645667403
 CircleCollider2D:
@@ -165,7 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyHealth: 50
   moveSpeed: 2
-  stopYPosition: 4
+  stopYPosition: 3
   scorePerEnemyTierOne: 15
   playerTarget: {fileID: 3768451477405728707, guid: 1bff21ed876c25741b28c91c322a8307, type: 3}
   trackingSpeed: 2
@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 3206724677000632556, guid: ab706da7f48566e49a49294f5e020ed7, type: 3}
-  shootInterval: 2
+  shootInterval: 4
   shootPoint: {fileID: 9055152360590233517}
   playerTarget: {fileID: 3768451477405728707, guid: 1bff21ed876c25741b28c91c322a8307, type: 3}
   lazerClip: {fileID: 8300000, guid: 528f4365cce222846adfb1d5cc832a6a, type: 3}

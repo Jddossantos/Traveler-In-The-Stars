@@ -42,6 +42,12 @@ public class EnemyProjectileScript : MonoBehaviour
                 GameManager.Instance.TakeDamage(projectileDamage);
             }
             Destroy(gameObject);        //destroy the projectile up collsion
-        }  
+        }
+
+        //checking if the projectile collides with a meteor instead
+        else if (collision.gameObject.CompareTag("Meteors"))
+        {
+            Destroy(gameObject);            //destroys the projectile after it collides with the meteor to prevent further collisions
+        }
     }
 }

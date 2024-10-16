@@ -25,8 +25,8 @@ public class GameManager : MonoBehaviour
     private int playerScore;            //player score variable
 
     //health and lives management
-    [SerializeField] private int maxHealth = 20;
-    [SerializeField] private int maxLives = 1;
+    [SerializeField] private int maxHealth = 100;
+    [SerializeField] private int maxLives = 3;
     private int currentHealth;
     private int currentLives;
 
@@ -72,6 +72,7 @@ public class GameManager : MonoBehaviour
     }
 
     #region Score Management
+
     public int score
     {
         get => playerScore;
@@ -101,12 +102,12 @@ public class GameManager : MonoBehaviour
         get => currentLives;
         set
         {
-            currentLives = Mathf.Clamp(value, 0, maxLives);
+            currentLives = Mathf.Clamp(value, 0, maxLives);         //clamps lives to not exceed the total amount of maxLives
             OnLifeValueChanged?.Invoke(currentLives);
 
             if (currentLives <= 0)
             {
-                GameOver();
+                GameOver();         //if lives is less than or equal to 0, call game over function
             }
         }
     }
@@ -116,12 +117,12 @@ public class GameManager : MonoBehaviour
         get => currentHealth;
         set
         {
-            currentHealth = Mathf.Clamp(value, 0, maxHealth);
+            currentHealth = Mathf.Clamp(value, 0, maxHealth);       //clamps player health to the maxHealth value
             OnHealthValueChanged?.Invoke(currentHealth);
 
             if (currentHealth <= 0)
             {
-                PlayerDeath();
+                PlayerDeath();      //if health is less than or equal to 0, call player death function
             }
         }
     }

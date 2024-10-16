@@ -27,6 +27,8 @@ public class UIManager : MonoBehaviour
     public Button backButton;           //back button
     public Button levelOneButton;       //level 1 button
     public Button levelTwoButton;       //level 2 button
+    public Button levelThreeButton;     //level 3 button
+    public Button levelFourButton;      //level 4 button
     public Button applySkinButton;      //apply skin button (added for skin application)
 
     [Header("GameOverUI")]
@@ -94,6 +96,18 @@ public class UIManager : MonoBehaviour
         if (levelTwoButton)
         {
             levelTwoButton.onClick.AddListener(() => GameManager.Instance.ChangeScene(2));
+            GameManager.Instance.ResetGameData();
+        }
+
+        if (levelThreeButton)
+        {
+            levelThreeButton.onClick.AddListener(() => GameManager.Instance.ChangeScene(3));
+            GameManager.Instance.ResetGameData();
+        }
+
+        if (levelFourButton)
+        {
+            levelFourButton.onClick.AddListener(() => GameManager.Instance.ChangeScene(4));
             GameManager.Instance.ResetGameData();
         }
 

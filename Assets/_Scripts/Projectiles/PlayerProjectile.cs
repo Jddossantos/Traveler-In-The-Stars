@@ -11,7 +11,7 @@ public class ProjectileScript : MonoBehaviour
     private Rigidbody2D projectileRB;
 
     //damage
-    public int projectileDamage = 20;       //the amount of damage the projectile will deal to enemies
+    public int projectileDamage = 25;       //the amount of damage the projectile will deal to enemies
 
     // Start is called before the first frame update
     void Start()
@@ -48,7 +48,49 @@ public class ProjectileScript : MonoBehaviour
             }
             Destroy(gameObject);            //destroy the projectile after it collides with the enemy to prevent further collisions
         }
-        
+
+        //checking if the projectile collides with an object tagged as "Enemy"
+        else if (collision.gameObject.CompareTag("EnemiesTier2"))
+        {
+            //attempting to get the EnemyController script from the collided enemy object
+            EnemyController enemyController = collision.gameObject.GetComponent<EnemyController>();
+
+            //if the enemy has a EnemyController, reduce it's health by the damage amount specified variable, i.e it applys the damage to the enemy
+            if (enemyController != null)
+            {
+                enemyController.TakeDamage(projectileDamage);   //calling the take damage method on the EnemyController
+            }
+            Destroy(gameObject);            //destroy the projectile after it collides with the enemy to prevent further collisions
+        }
+
+        //checking if the projectile collides with an object tagged as "Enemy"
+        else if (collision.gameObject.CompareTag("EnemiesTier3"))
+        {
+            //attempting to get the EnemyController script from the collided enemy object
+            EnemyController enemyController = collision.gameObject.GetComponent<EnemyController>();
+
+            //if the enemy has a EnemyController, reduce it's health by the damage amount specified variable, i.e it applys the damage to the enemy
+            if (enemyController != null)
+            {
+                enemyController.TakeDamage(projectileDamage);   //calling the take damage method on the EnemyController
+            }
+            Destroy(gameObject);            //destroy the projectile after it collides with the enemy to prevent further collisions
+        }
+
+        //checking if the projectile collides with an object tagged as "Enemy"
+        else if (collision.gameObject.CompareTag("EnemiesTier4"))
+        {
+            //attempting to get the EnemyController script from the collided enemy object
+            EnemyController enemyController = collision.gameObject.GetComponent<EnemyController>();
+
+            //if the enemy has a EnemyController, reduce it's health by the damage amount specified variable, i.e it applys the damage to the enemy
+            if (enemyController != null)
+            {
+                enemyController.TakeDamage(projectileDamage);   //calling the take damage method on the EnemyController
+            }
+            Destroy(gameObject);            //destroy the projectile after it collides with the enemy to prevent further collisions
+        }
+
         //checking if the projectile collides with a meteor instead
         else if (collision.gameObject.CompareTag("Meteors"))
         {

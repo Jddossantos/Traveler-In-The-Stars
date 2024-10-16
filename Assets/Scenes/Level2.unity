@@ -569,12 +569,15 @@ MonoBehaviour:
   optionsMenu: {fileID: 0}
   shopMenu: {fileID: 0}
   pauseMenu: {fileID: 1110082361}
+  levelMenu: {fileID: 0}
   startButton: {fileID: 0}
   optionsButton: {fileID: 0}
   shopButton: {fileID: 0}
   pauseButton: {fileID: 1726443137}
   resumeButton: {fileID: 878877855}
   backButton: {fileID: 0}
+  levelOneButton: {fileID: 0}
+  levelTwoButton: {fileID: 0}
   applySkinButton: {fileID: 0}
   restartButton: {fileID: 0}
   returnToMenuButton: {fileID: 1439083236}
@@ -1901,11 +1904,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefabs:
-  - {fileID: 5434108900290837121, guid: b07e9d716200291408a9a877549a10b9, type: 3}
-  - {fileID: 4150611726787257493, guid: deaea31c46ff90340a7b08d9122ab716, type: 3}
-  - {fileID: 4114720469272082593, guid: cd2bfeb274774ff408db32298c54b38c, type: 3}
-  - {fileID: 1129875868996644527, guid: c23c58976ed142c4d9ac09ef30fb5583, type: 3}
-  - {fileID: 7551707743020294372, guid: d71d13cd790ce494ebabb06eabca043f, type: 3}
+  - {fileID: 6724150662655301884, guid: 13464bf9c0f501c4aa7cc19ab8f2d030, type: 3}
+  - {fileID: 7336454085494507750, guid: aa2f0da7ba2af804aa87ad27afd7cf52, type: 3}
+  - {fileID: 1405364215206464307, guid: 28cc39792c7d8254a9be45fef628809d, type: 3}
+  - {fileID: 1604562530056498377, guid: f1a0cc3f3a8bb024084d5301ce17d31c, type: 3}
+  - {fileID: 1040996420724479696, guid: 9ee9c59990d3b1e4bbc5d8032edc55c2, type: 3}
   bossPrefab: {fileID: 0}
   enemySpawnPoints:
   - {fileID: 2067498215}

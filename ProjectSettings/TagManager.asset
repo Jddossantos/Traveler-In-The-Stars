@@ -10,6 +10,9 @@ TagManager:
   - Meteors
   - PlayerProjectile
   - EnemyProjectile
+  - EnemiesTier2
+  - EnemiesTier3
+  - EnemiesTier4
   layers:
   - Default
   - TransparentFX
