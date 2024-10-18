@@ -185,7 +185,7 @@ MonoBehaviour:
   shootInterval: 3
   shootPoint: {fileID: 3690815808432718443}
   playerTarget: {fileID: 3768451477405728707, guid: 1bff21ed876c25741b28c91c322a8307, type: 3}
-  lazerClip: {fileID: 0}
+  lazerClip: {fileID: 8300000, guid: 528f4365cce222846adfb1d5cc832a6a, type: 3}
 --- !u!1 &6772671929481994438
 GameObject:
   m_ObjectHideFlags: 0
