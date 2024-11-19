@@ -95,7 +95,7 @@ public class MeteorScript : MonoBehaviour
             //applying damage to the player
             if (playerController != null)
             {
-                GameManager.Instance.TakeDamage(meteorHealth);  //applying damage the player that is equal to the meteor's health
+                GameManager.Instance.TakeDamage(15);  //applying damage the player that is equal to the meteor's health
             }
 
             Destroy(gameObject);    //destroying the meteor after it hits the player

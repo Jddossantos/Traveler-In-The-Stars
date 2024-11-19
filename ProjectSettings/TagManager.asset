@@ -13,6 +13,7 @@ TagManager:
   - EnemiesTier2
   - EnemiesTier3
   - EnemiesTier4
+  - Boss
   layers:
   - Default
   - TransparentFX

@@ -91,6 +91,17 @@ public class ProjectileScript : MonoBehaviour
             Destroy(gameObject);            //destroy the projectile after it collides with the enemy to prevent further collisions
         }
 
+        else if (collision.gameObject.CompareTag("Boss"))
+        {
+            BossController bossController = collision.gameObject.GetComponent<BossController>();
+
+            if (bossController != null)
+            {
+                bossController.TakeDamage(projectileDamage);
+            }
+            Destroy(gameObject);
+        }
+
         //checking if the projectile collides with a meteor instead
         else if (collision.gameObject.CompareTag("Meteors"))
         {

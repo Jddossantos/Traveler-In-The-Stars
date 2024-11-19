@@ -19,9 +19,9 @@ public class AudioManager : MonoBehaviour
 
     private int currentTrackIndex = 0;
 
-    public float masterVolume = 1f;
-    public float musicVolume = 1f;
-    public float sfxVolume = 1f;
+    [Range (0, 1)] public float masterVolume = 1f;
+    [Range (0, 1)] public float musicVolume = 1f;
+    [Range (0, 1)] public float sfxVolume = 1f;
 
     private void Awake()
     {
@@ -41,6 +41,7 @@ public class AudioManager : MonoBehaviour
     {
         //start playing the first track
         PlayMusicTrack(currentTrackIndex);
+        ApplyVolume();
     }
 
     //function to play a specific sound effect on fire
@@ -94,19 +95,24 @@ public class AudioManager : MonoBehaviour
     public void SetMasterVolume(float volume)
     {
         masterVolume = Mathf.Clamp01(volume);
-        musicSource.volume = musicVolume * masterVolume;
-        sfxSource.volume = sfxVolume * masterVolume;
+        ApplyVolume();
     }
 
     public void SetMusicVolume(float volume)
     {
         musicVolume = Mathf.Clamp01(volume);
-        musicSource.volume = musicVolume * masterVolume;
+        ApplyVolume();
     }
 
     public void SetSFXVolume(float volume)
     {
         sfxVolume = Mathf.Clamp01(volume);
+        ApplyVolume();
+    }
+
+    public void ApplyVolume()
+    {
+        musicSource.volume = musicVolume * masterVolume;
         sfxSource.volume = sfxVolume * masterVolume;
     }
 }

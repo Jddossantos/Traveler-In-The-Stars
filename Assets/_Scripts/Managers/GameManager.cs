@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
+using System;
 
 [DefaultExecutionOrder(-1)]
 public class GameManager : MonoBehaviour
@@ -12,15 +13,15 @@ public class GameManager : MonoBehaviour
     static GameManager instance;
 
     //player variables and management
-    [SerializeField] private PlayerController playerController;
-    [SerializeField] private PlayerSpawn playerSpawn;
+    [SerializeField] PlayerController playerController;
+    [SerializeField] PlayerSpawn playerSpawn;
 
     //skin management
     public GameObject playerShip;       //player ship object for skin switching
     public GameObject[] playerSkins;    //array for different player skins
     private int selectedSkinIndex;      //currently selected skin index
 
-    Transform playerSpawnLocation;
+    //Transform playerSpawnLocation;
 
     private int playerScore;            //player score variable
 
@@ -34,8 +35,10 @@ public class GameManager : MonoBehaviour
     public UnityEvent<int> OnLifeValueChanged;
     public UnityEvent<int> OnHealthValueChanged;
     public UnityEvent<int> OnScoreValueChanged;
+    public UnityEvent<float> OnTimerUpdate;
     public string lastLevel;
 
+    private float inGameTimer;
     private void Awake()
     {
         //if statement to ensure only one instance of game manager exists
@@ -68,7 +71,9 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //updating the timer every second and notfiying UI
+        inGameTimer += Time.deltaTime;
+        OnTimerUpdate?.Invoke(inGameTimer);
     }
 
     #region Score Management
@@ -160,7 +165,34 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(sceneIndex);
         Time.timeScale = 1;
     }
+
+    public float GetLevelTimer()
+    {
+        return inGameTimer;
+    }
+
+    public void ResetGameTimer()
+    {
+        inGameTimer = 0f;
+    }
+
     #endregion
+
+    #region Level Management/ Restart & Game Over
+
+    private Dictionary<string, int> levelMapping = new Dictionary<string, int>
+    { {"Level1", 1 }, {"Level2", 2}, {"Level3", 3}, {"Level4", 4} }; 
+
+    public int GetLevel()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        if (levelMapping.TryGetValue(currentSceneName, out int level))
+        {
+            return level;
+        }
+        Debug.LogWarning($"GetLevel : Unknown scene name '{currentSceneName}'. defaulting to level 1.");
+        return 1;
+    }
 
     public void ResetGameData()
     {
@@ -173,19 +205,24 @@ public class GameManager : MonoBehaviour
         OnLifeValueChanged?.Invoke(currentLives);
 
         Respawn();
+        ResetGameTimer();
 
     }
 
     public void GameOver()
     {
-        lastLevel = SceneManager.GetActiveScene().name;
+        int currentLevel = GetLevel();
 
         //saving the current score
         StorageManager.Instance.SaveLastScore(playerScore);
         StorageManager.Instance.SaveHighScore(playerScore); //checking if it's a new high score
 
+        StorageManager.Instance.CalculateFinalScore(currentLevel, score, inGameTimer);
+
         SceneManager.LoadScene("GameOver");
     }
+
+    #endregion
 
     #region Skin Management
     //method to change the skin of the player

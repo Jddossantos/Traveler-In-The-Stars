@@ -46,6 +46,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI healthText;
     public TextMeshProUGUI livesText;
+    public TextMeshProUGUI timerText;
     public TextMeshProUGUI masterVolumeText;
     public TextMeshProUGUI musicVolumeText;
     public TextMeshProUGUI sfxVolumeText;
@@ -113,39 +114,39 @@ public class UIManager : MonoBehaviour
 
         if (masterVolSlider)
         {
-            masterVolSlider.onValueChanged.AddListener((value) => OnSliderValueChanged(value, masterVolumeText, "MasterVol"));
-            float mixerValue;
-            audioMixer.GetFloat("MasterVol", out mixerValue);
-            masterVolSlider.value = mixerValue + 80;
-            if (masterVolumeText)
-                masterVolumeText.text = masterVolSlider.value.ToString();
+            masterVolSlider.value = AudioManager.instance.masterVolume * 100;
+            masterVolSlider.onValueChanged.AddListener((value) =>
+            {
+                AudioManager.instance.SetMasterVolume(value / 100);
+                UpdateVolumeText(masterVolumeText, value);
+            });
         }
 
         if (musicVolSlider)
         {
-            musicVolSlider.onValueChanged.AddListener((value) => OnSliderValueChanged(value, musicVolumeText, "MusicVol"));
-            float mixerValue;
-            audioMixer.GetFloat("MusicVol", out mixerValue);
-            musicVolSlider.value = mixerValue + 80;
-            if (musicVolumeText)
-                musicVolumeText.text = musicVolSlider.value.ToString();
+            musicVolSlider.value = AudioManager.instance.musicVolume * 100;
+            musicVolSlider.onValueChanged.AddListener((value) =>
+            {
+                AudioManager.instance.SetMusicVolume(value / 100);
+                UpdateVolumeText(musicVolumeText, value);
+            });
         }
 
         if (sfxVolSlider)
         {
-            sfxVolSlider.onValueChanged.AddListener((value) => OnSliderValueChanged(value, sfxVolumeText, "SFXVol"));
-            float mixerValue;
-            audioMixer.GetFloat("SFXVol", out mixerValue);
-            sfxVolSlider.value = mixerValue + 80;
-            if (sfxVolumeText)
-                sfxVolumeText.text = sfxVolSlider.value.ToString();
+            sfxVolSlider.value = AudioManager.instance.sfxVolume * 100;
+            sfxVolSlider.onValueChanged.AddListener((value) =>
+            {
+                AudioManager.instance.SetSFXVolume(value / 100);
+                UpdateVolumeText(sfxVolumeText, value);
+            });
         }
 
         //score, health, and lives setup
         if (scoreText)
         {
             GameManager.Instance.OnScoreValueChanged.AddListener(UpdateScore);
-            scoreText.text = "S: " + GameManager.Instance.score.ToString();
+            scoreText.text = GameManager.Instance.score.ToString();
         }
 
         if (healthText)
@@ -158,6 +159,12 @@ public class UIManager : MonoBehaviour
         {
             GameManager.Instance.OnLifeValueChanged.AddListener(UpdateLives);
             livesText.text = "L: " + GameManager.Instance.Lives.ToString();
+        }
+
+        if (timerText)
+        {
+            GameManager.Instance.OnTimerUpdate.AddListener(UpdateTimer);
+            UpdateTimer(GameManager.Instance.GetLevelTimer());
         }
 
         //setting up skin selection buttons
@@ -182,6 +189,14 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
+    }
+
+    public void UpdateVolumeText(TextMeshProUGUI volumeText, float value)
+    {
+        if (volumeText != null)
+        {
+            volumeText.text = Mathf.RoundToInt(value).ToString();
+        }
     }
 
     /// <summary>
@@ -241,7 +256,7 @@ public class UIManager : MonoBehaviour
     {
         if (scoreText != null)
         {
-            scoreText.text = "S: " + newScore.ToString();
+            scoreText.text = newScore.ToString();
         }
     }
 
@@ -261,6 +276,17 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void UpdateTimer(float timer)
+    {
+        if (timerText != null)
+        {
+            //format time as minutes and seconds
+            int minutes = Mathf.FloorToInt(timer / 60);
+            int seconds = Mathf.FloorToInt(timer % 60);
+            timerText.text = $"{minutes:00}:{seconds:00}";
+        }
+    }
+
     private void DisplayGameOverScores()
     {
         int lastScore = StorageManager.Instance.GetLastScore();
@@ -268,7 +294,7 @@ public class UIManager : MonoBehaviour
 
         if (lastScoreText != null)
         {
-            lastScoreText.text = "This Rounds Score: " + lastScore.ToString();
+            lastScoreText.text = "Score: " + lastScore.ToString();
         }
         if (currentHighScoreText != null)
         {
