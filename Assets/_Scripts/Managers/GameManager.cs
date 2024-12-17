@@ -178,20 +178,30 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
-    #region Level Management/ Restart & Game Over
-
+    #region Level Management/ Reset Game
+    //Dictionary that maps scene names to the corresponding level numbers
     private Dictionary<string, int> levelMapping = new Dictionary<string, int>
-    { {"Level1", 1 }, {"Level2", 2}, {"Level3", 3}, {"Level4", 4} }; 
+    { 
+        //Each key-value pairs asscoiates a scene name with a level number
+        {"Level1", 1}, 
+        {"Level2", 2}, 
+        {"Level3", 3}, 
+        {"Level4", 4} 
+    }; 
 
     public int GetLevel()
     {
+        //Retrieve the name of the current active scene
         string currentSceneName = SceneManager.GetActiveScene().name;
+
+        //Trying to find the level number for the current scene name in the dictionary
         if (levelMapping.TryGetValue(currentSceneName, out int level))
         {
-            return level;
+            return level;   //returns the level number
         }
         Debug.LogWarning($"GetLevel : Unknown scene name '{currentSceneName}'. defaulting to level 1.");
-        return 1;
+
+        return 1;   //defaults the level to 1
     }
 
     public void ResetGameData()

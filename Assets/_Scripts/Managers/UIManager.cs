@@ -11,36 +11,43 @@ public class UIManager : MonoBehaviour
 {
     public AudioMixer audioMixer;
 
-    [Header("Menus")]
+    [Header("Main Menu")]
     public GameObject mainMenu;
-    public GameObject optionsMenu;
-    public GameObject shopMenu;
-    public GameObject pauseMenu;
-    public GameObject levelMenu;
-
-    [Header("Buttons")]
     public Button startButton;          //start button
     public Button optionsButton;        //options button
     public Button shopButton;           //shop button
-    public Button pauseButton;          //pause button
-    public Button resumeButton;         //resume button
-    public Button backButton;           //back button
+
+    [Header("Level Menu")]
+    public GameObject levelMenu;
     public Button levelOneButton;       //level 1 button
     public Button levelTwoButton;       //level 2 button
     public Button levelThreeButton;     //level 3 button
     public Button levelFourButton;      //level 4 button
+    public Button levelBackButton;       
+
+    [Header("Options Menu")]
+    public GameObject optionsMenu;
+    public Button backButton;           //back button
+
+    [Header("Option Sliders")]
+    public Slider masterVolSlider;
+    public Slider musicVolSlider;
+    public Slider sfxVolSlider;
+
+    [Header("Shop Menu")]
+    public GameObject shopMenu;
     public Button applySkinButton;      //apply skin button (added for skin application)
+
+    [Header("Pause Menu (In Game)")]
+    public GameObject pauseMenu;
+    public Button pauseButton;          //pause button
+    public Button resumeButton;         //resume button
 
     [Header("GameOverUI")]
     public Button restartButton;        //restart button
     public Button returnToMenuButton;   //return to menu button
     public TextMeshProUGUI lastScoreText;
     public TextMeshProUGUI currentHighScoreText;
-
-    [Header("Sliders")]
-    public Slider masterVolSlider;
-    public Slider musicVolSlider;
-    public Slider sfxVolSlider;
 
     [Header("Texts")]
     public TextMeshProUGUI scoreText;
@@ -72,6 +79,9 @@ public class UIManager : MonoBehaviour
 
         if (backButton)
             backButton.onClick.AddListener(() => SetMenus(mainMenu, optionsMenu, shopMenu, levelMenu));
+
+        if (levelBackButton)
+            levelBackButton.onClick.AddListener(() => SetMenus(mainMenu, optionsMenu, shopMenu, levelMenu));
 
         if (returnToMenuButton)
         {
