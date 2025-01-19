@@ -216,11 +216,12 @@ public class GameManager : MonoBehaviour
 
         Respawn();
         ResetGameTimer();
-
     }
 
     public void GameOver()
     {
+        lastLevel = SceneManager.GetActiveScene().name;
+
         int currentLevel = GetLevel();
 
         //saving the current score

@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/NameEntry.unity
+    guid: 00ae335967f11324cb259924bfb0546a
+  - enabled: 1
     path: Assets/Scenes/Main Menu.unity
     guid: bb0294231486beb46bbe1dc711e3ea55
   - enabled: 1
@@ -23,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameOver.unity
     guid: 64c82205b47368d4c8e03d18018ebb48
-  m_configObjects: {}
+  m_configObjects:
+    UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 726dec56d56240f4294c7cdf343118a1, type: 2}
+    com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: b36993ab8bd3f8c4aacadd6467aa6249, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 74676008ad726ea4190ed67168dae1f1, type: 2}
